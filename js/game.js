@@ -12,6 +12,7 @@ const ctx = canvas.getContext("2d");
 
 let frames = 0;
 let arrObstaculos = [];
+let animationId;
 
 function updateCanvas() {
   backgroundImage.move();
@@ -20,11 +21,15 @@ function updateCanvas() {
   player.gravidede();
   criaObstaculos();
   moverObstaculos();
-  // obstaculos.desenha();
-  // obstaculos.onload = updateCanvas;
+  for (let i = 0; i < arrObstaculos.length; i++) {
+    if (crashWith(arrObstaculos[i])) {
+      gameOver();
+    }
+    // console.log(crashWith(arrObstaculos[i]));
+  }
   imgBack.onload = updateCanvas;
   sprites.onload = updateCanvas;
-  requestAnimationFrame(updateCanvas);
+  animationId = requestAnimationFrame(updateCanvas);
 }
 //propriedades do background
 const backgroundImage = {
@@ -67,11 +72,22 @@ let player = {
   larguraTela: 100,
   alturaTela: 100,
   x: 100,
-  y: 400, // 400 é o valor do chao
+  y: 400,
   chao: 400,
   topo: 250,
-  speedY: 0,
-
+  speedY: 1,
+  top() {
+    return this.y;
+  },
+  bottom() {
+    return this.y + this.altura;
+  },
+  left() {
+    return this.x;
+  },
+  right() {
+    return this.x + this.largura;
+  },
   gravidede() {
     this.speedY += 0.19;
     this.y += this.speedY;
@@ -110,6 +126,18 @@ class Obstaculos {
     this.larguraTela = 100;
     this.alturaTela = 100;
   }
+  top() {
+    return this.y;
+  }
+  bottom() {
+    return this.y + this.altura;
+  }
+  left() {
+    return this.x;
+  }
+  right() {
+    return this.x + this.largura;
+  }
   desenha() {
     ctx.drawImage(
       sprites,
@@ -142,9 +170,26 @@ function moverObstaculos() {
   });
 }
 
+function crashWith(Obstacle) {
+  // Verifica se um dos lados do retangulo do objeto jogado "invade" algum dos lados ocupados pelos pixels do objeto obstaculo
+  //console.log(Obstacle);
+  return !(
+    player.bottom() < Obstacle.top() ||
+    player.top() > Obstacle.bottom() ||
+    player.right() < Obstacle.left() ||
+    player.left() > Obstacle.right()
+  );
+}
+
 document.addEventListener("keypress", (event) => {
   if (event.keyCode === 32) {
     player.pula(11);
   }
 });
+
+function gameOver() {
+  cancelAnimationFrame(animationId);
+  console.log("entrou no gameover");
+}
+
 updateCanvas();
