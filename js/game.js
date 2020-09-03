@@ -6,8 +6,6 @@ startImg.src = "../images/logo.jpg";
 const sprites = new Image();
 sprites.src = "../images/sprite.png";
 
-// origem da img do background
-
 const imgBack = new Image();
 imgBack.src = "../images/background.png";
 
@@ -18,6 +16,7 @@ let frames = 0;
 let arrObstaculos = [];
 let animationId;
 let startAnimation = true;
+
 function start() {
   ctx.clearRect(0, 0, 1400, 600);
   startImg.onload = function () {
@@ -39,12 +38,10 @@ function updateCanvas() {
       alert("Game over!");
       return gameOver();
     }
-    // console.log(crashWith(arrObstaculos[i]));
   }
-  // imgBack.onload = updateCanvas;
-  // sprites.onload = updateCanvas;
   animationId = window.requestAnimationFrame(updateCanvas);
 }
+
 //propriedades do background
 const backgroundImage = {
   imgBack: imgBack,
@@ -213,10 +210,9 @@ function gameOver() {
 function score() {
   const points = Math.floor(frames / 5);
 
-  ctx.font = "18px serif";
+  ctx.font = "50px serif";
   ctx.fillStyle = "white";
-  ctx.fillText(`Score: ${points}`, 350, 50);
+  ctx.fillText(`Score: ${points}`, 0, 50);
 }
 
-//animationId = window.requestAnimationFrame(updateCanvas);
 start();
