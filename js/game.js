@@ -20,22 +20,24 @@ function updateCanvas() {
   player.desenha();
   player.gravidede();
   criaObstaculos();
+  score();
   moverObstaculos();
   for (let i = 0; i < arrObstaculos.length; i++) {
     if (crashWith(arrObstaculos[i])) {
-      gameOver();
+      alert("Game over!");
+      return gameOver();
     }
     // console.log(crashWith(arrObstaculos[i]));
   }
-  imgBack.onload = updateCanvas;
-  sprites.onload = updateCanvas;
-  animationId = requestAnimationFrame(updateCanvas);
+  // imgBack.onload = updateCanvas;
+  // sprites.onload = updateCanvas;
+  animationId = window.requestAnimationFrame(updateCanvas);
 }
 //propriedades do background
 const backgroundImage = {
   imgBack: imgBack,
   x: 0,
-  speed: -0.3,
+  speed: -2,
   move: function () {
     this.x += this.speed;
     this.x %= canvas.width;
@@ -69,8 +71,8 @@ let player = {
   spriteY: 0,
   largura: 117,
   altura: 93,
-  larguraTela: 100,
-  alturaTela: 100,
+  larguraTela: 117,
+  alturaTela: 93,
   x: 100,
   y: 400,
   chao: 400,
@@ -127,13 +129,13 @@ class Obstaculos {
     this.alturaTela = 100;
   }
   top() {
-    return this.y;
+    return this.y + 24;
   }
   bottom() {
     return this.y + this.altura;
   }
   left() {
-    return this.x;
+    return this.x + 24;
   }
   right() {
     return this.x + this.largura;
@@ -152,7 +154,7 @@ class Obstaculos {
     );
   }
   moverObstaculo() {
-    this.x -= 1;
+    this.x -= 2;
   }
 }
 
@@ -189,7 +191,15 @@ document.addEventListener("keypress", (event) => {
 
 function gameOver() {
   cancelAnimationFrame(animationId);
-  console.log("entrou no gameover");
+  console.log(animationId);
 }
 
-updateCanvas();
+function score() {
+  const points = Math.floor(frames / 5);
+
+  ctx.font = "18px serif";
+  ctx.fillStyle = "white";
+  ctx.fillText(`Score: ${points}`, 350, 50);
+}
+
+animationId = window.requestAnimationFrame(updateCanvas);
