@@ -1,4 +1,8 @@
 // origem da imag dos sprites
+
+const startImg = new Image();
+startImg.src = "../images/logo.jpg";
+
 const sprites = new Image();
 sprites.src = "../images/sprite.png";
 
@@ -13,6 +17,14 @@ const ctx = canvas.getContext("2d");
 let frames = 0;
 let arrObstaculos = [];
 let animationId;
+let startAnimation = true;
+function start() {
+  ctx.clearRect(0, 0, 1400, 600);
+  startImg.onload = function () {
+    ctx.drawImage(startImg, 0, 0, 1400, 600);
+    console.log("teste");
+  };
+}
 
 function updateCanvas() {
   backgroundImage.move();
@@ -184,6 +196,10 @@ function crashWith(Obstacle) {
 }
 
 document.addEventListener("keypress", (event) => {
+  if (startAnimation) {
+    startAnimation = false;
+    animationId = window.requestAnimationFrame(updateCanvas);
+  }
   if (event.keyCode === 32) {
     player.pula(11);
   }
@@ -202,4 +218,5 @@ function score() {
   ctx.fillText(`Score: ${points}`, 350, 50);
 }
 
-animationId = window.requestAnimationFrame(updateCanvas);
+//animationId = window.requestAnimationFrame(updateCanvas);
+start();
