@@ -118,24 +118,24 @@ const player = new Component(30, 30, "red", 0, 110);
 
 myGameArea.start();
 
-document.addEventListener("keydown", (e) => {
+document.addEventListener("keydown", (e) => {  //keypress  
   switch (e.keyCode) {
-    case 38: // up arrow
+    case 38: // up arrow  32  if 
       player.speedY -= 1;
       break;
-    case 40: // down arrow
-      player.speedY += 1;
-      break;
-    case 37: // left arrow
-      player.speedX -= 1;
-      break;
-    case 39: // right arrow
-      player.speedX += 1;
-      break;
+    // case 40: // down arrow
+    //   player.speedY += 1;
+    //   break;
+    // case 37: // left arrow
+    //   player.speedX -= 1;
+    //   break;
+    // case 39: // right arrow
+    //   player.speedX += 1;
+    //   break;
   }
 });
 
-document.addEventListener("keyup", (e) => {
+document.addEventListener("keyup", (e) => {    // ***** 
   player.speedX = 0;
   player.speedY = 0;
 });

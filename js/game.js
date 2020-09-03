@@ -10,13 +10,18 @@ imgBack.src = "../images/background.png";
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+let frames = 0;
+let arrObstaculos = [];
+
 function updateCanvas() {
   backgroundImage.move();
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   backgroundImage.draw();
   player.desenha();
-  obstaculos.desenha();
-  obstaculos.onload = updateCanvas;
+  player.gravidede();
+  criaObstaculos();
+  moverObstaculos();
+  // obstaculos.desenha();
+  // obstaculos.onload = updateCanvas;
   imgBack.onload = updateCanvas;
   sprites.onload = updateCanvas;
   requestAnimationFrame(updateCanvas);
@@ -63,6 +68,22 @@ let player = {
   alturaTela: 100,
   x: 100,
   y: 400, // 400 é o valor do chao
+  chao: 400,
+  topo: 250,
+  speedY: 0,
+
+  gravidede() {
+    this.speedY += 0.19;
+    this.y += this.speedY;
+    if (this.y >= this.chao) {
+      this.speedY = 0;
+      this.y = this.chao;
+    }
+  },
+  pula(valor) {
+    this.speedY -= valor;
+  },
+
   desenha() {
     ctx.drawImage(
       sprites,
@@ -78,15 +99,17 @@ let player = {
   },
 };
 
-let obstaculos = {
-  spriteX: 0,
-  spriteY: 266,
-  largura: 72,
-  altura: 172,
-  larguraTela: 100,
-  alturaTela: 100,
-  x: 400,
-  y: 400, // 400 é o valor do chao
+class Obstaculos {
+  constructor(x) {
+    this.x = x;
+    this.y = 400;
+    this.largura = 72;
+    this.altura = 172;
+    this.spriteX = 0;
+    this.spriteY = 266;
+    this.larguraTela = 100;
+    this.alturaTela = 100;
+  }
   desenha() {
     ctx.drawImage(
       sprites,
@@ -99,7 +122,29 @@ let obstaculos = {
       this.larguraTela,
       this.alturaTela
     );
-  },
-};
+  }
+  moverObstaculo() {
+    this.x -= 1;
+  }
+}
 
+function criaObstaculos() {
+  frames += 1;
+  if (frames % 500 === 0) {
+    arrObstaculos.push(new Obstaculos(1390));
+  }
+}
+
+function moverObstaculos() {
+  arrObstaculos.forEach((element, index) => {
+    element.desenha();
+    element.moverObstaculo();
+  });
+}
+
+document.addEventListener("keypress", (event) => {
+  if (event.keyCode === 32) {
+    player.pula(11);
+  }
+});
 updateCanvas();
