@@ -9,7 +9,8 @@ sprites.src = "./images/sprite.png";
 const imgBack = new Image();
 imgBack.src = "./images/background.png";
 
-const MusicGame = new Audio();
+const musicGame = new Audio();
+musicGame.scr = "../sounds/inGame.mp3";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -23,11 +24,11 @@ function start() {
   ctx.clearRect(0, 0, 1400, 600);
   startImg.onload = function () {
     ctx.drawImage(startImg, 0, 0, 1400, 600);
-    console.log("teste");
   };
 }
 
 function updateCanvas() {
+  musicGame.play();
   backgroundImage.move();
   backgroundImage.draw();
   player.desenha();
