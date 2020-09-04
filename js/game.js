@@ -1,13 +1,15 @@
 // origem da imag dos sprites
 
 const startImg = new Image();
-startImg.src = "../images/logo.jpg";
+startImg.src = "./images/logo.jpg";
 
 const sprites = new Image();
-sprites.src = "../images/sprite.png";
+sprites.src = "./images/sprite.png";
 
 const imgBack = new Image();
-imgBack.src = "../images/background.png";
+imgBack.src = "./images/background.png";
+
+const MusicGame = new Audio();
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
