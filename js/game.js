@@ -8,6 +8,8 @@ sprites.src = "./images/sprite.png";
 
 const imgBack = new Image();
 imgBack.src = "./images/background.png";
+const gameOverimg = new Image();
+gameOverimg.src = "./images/game-over.jpg";
 
 const musicGame = new Audio();
 musicGame.src = "./sounds/inGame2.wav";
@@ -37,7 +39,6 @@ function updateCanvas() {
   moverObstaculos();
   for (let i = 0; i < arrObstaculos.length; i++) {
     if (crashWith(arrObstaculos[i])) {
-      alert("Game over!");
       return gameOver();
     }
   }
@@ -209,13 +210,15 @@ document.addEventListener("keypress", (event) => {
 function gameOver() {
   cancelAnimationFrame(animationId);
   console.log(animationId);
+  ctx.clearRect(0, 0, 1400, 600);
+  ctx.drawImage(gameOverimg, 0, 0, 1400, 600);
+  musicGame.pause();
 }
 
 function score() {
   const points = Math.floor(frames / 5);
-
   ctx.font = "50px serif";
-  ctx.fillStyle = "white";
+  ctx.fillStyle = "yellow";
   ctx.fillText(`Score: ${points}`, 0, 50);
 }
 
