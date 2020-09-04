@@ -10,7 +10,7 @@ const imgBack = new Image();
 imgBack.src = "./images/background.png";
 
 const musicGame = new Audio();
-musicGame.scr = "../sounds/inGame.mp3";
+musicGame.src = "./sounds/inGame2.wav";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -28,7 +28,6 @@ function start() {
 }
 
 function updateCanvas() {
-  musicGame.play();
   backgroundImage.move();
   backgroundImage.draw();
   player.desenha();
@@ -198,6 +197,8 @@ function crashWith(Obstacle) {
 document.addEventListener("keypress", (event) => {
   if (startAnimation) {
     startAnimation = false;
+    musicGame.play();
+    console.log(musicGame.src);
     animationId = window.requestAnimationFrame(updateCanvas);
   }
   if (event.keyCode === 32) {
