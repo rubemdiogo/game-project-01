@@ -14,6 +14,12 @@ gameOverimg.src = "./images/game-over.jpg";
 const musicGame = new Audio();
 musicGame.src = "./sounds/inGame2.wav";
 
+const musicJump = new Audio();
+musicJump.src = "./sounds/jump.mp3";
+
+const musicGameOver = new Audio();
+musicGameOver.src = "./sounds/game-over.mp3";
+
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -204,6 +210,7 @@ document.addEventListener("keypress", (event) => {
   }
   if (event.keyCode === 32) {
     player.pula(11);
+    musicJump.play();
   }
 });
 
@@ -213,6 +220,7 @@ function gameOver() {
   ctx.clearRect(0, 0, 1400, 600);
   ctx.drawImage(gameOverimg, 0, 0, 1400, 600);
   musicGame.pause();
+  musicGameOver.play();
 }
 
 function score() {
